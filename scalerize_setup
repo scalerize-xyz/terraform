@@ -1,0 +1,14 @@
+#!/bin/bash
+docker pull nikhilsharmawe/scalerize
+docker network create --driver bridge scalerize_net
+tmux new-session -d -s scalerize_node 'docker run \
+--network scalerize_net \
+--name scalerize_node_$ID \
+-p 26657:26657 \
+-p 26656:26656 \
+-v shared_volume:/tmp/ipc \
+-e ID=$ID \
+-e ENGINE_API=$ENGINE_API \
+-e RPC_API=$RPC_API \
+nikhilsharmawe/scalerize /bin/bash -c "/start-testnet-node.sh" \
+| tee -a /tmp/scalerize_node_logs.log'
