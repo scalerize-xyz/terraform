@@ -66,21 +66,8 @@ output "ips" {
   value = google_compute_instance.vm_instance[*].network_interface[0].access_config[0].nat_ip
 }
 
-# resource "null_resource" "config_generation" {
-#   provisioner "local-exec" {
-#     command = "scalerized testnet init-files --v ${var.no_of_nodes} --ip-addresses ${join(",", google_compute_instance.vm_instance[*].network_interface[0].access_config[0].nat_ip)} --keyring-backend test"
-#   }
-
-#   depends_on = [google_compute_instance.vm_instance]
-# }
-
 resource "null_resource" "setup" {
   for_each = { for idx, ip in google_compute_instance.vm_instance[*].network_interface[0].access_config[0].nat_ip : idx => ip }
-
-  # provisioner "file" {
-  #   source      = format("${abspath(path.root)}/.testnets/node%d/scalerized", each.key)
-  #   destination = "/home/${var.user}/.scalerized"
-  # }
 
   provisioner "file" {
     source      = "${abspath(path.root)}/scalerize_setup"

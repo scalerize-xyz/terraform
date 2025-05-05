@@ -1,16 +1,13 @@
 #!/bin/bash
 
-# Pull the latest reth Docker image
 docker pull nikhilsharmawe/reth
 
-# Determine the appropriate script based on the node ID
 if [ "$ID" -eq 0 ]; then
   SCRIPT="start-testnet-reth-bootnode.sh"
 else
   SCRIPT="start-testnet-reth-miner-node.sh"
 fi
 
-# Construct the Docker run command
 DOCKER_CMD="docker run \
   --network scalerize_net \
   --name reth_node_$ID \
@@ -20,17 +17,13 @@ DOCKER_CMD="docker run \
   -v shared_volume:/tmp/ipc \
   -e ID=\$ID"
 
-# Add BOOTNODE environment variables for miner nodes
 if [ "$ID" -ne 0 ]; then
   DOCKER_CMD="$DOCKER_CMD \
   -e BOOTNODE_IP=$BOOTNODE_IP \
   -e BOOTNODE_RPC_PORT=$BOOTNODE_RPC_PORT"
 fi
 
-# Complete the Docker command with image and script execution
 DOCKER_CMD="$DOCKER_CMD \
   nikhilsharmawe/reth /bin/bash -c '/$SCRIPT'"
 
-echo $DOCKER_CMD
-# Start a detached tmux session named 'reth_node'
 tmux new-session -d -s reth_node "$DOCKER_CMD | tee -a /tmp/reth_node_logs.log" | tee -a /tmp/reth_node_logs.log
