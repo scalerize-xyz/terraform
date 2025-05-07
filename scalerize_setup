@@ -1,7 +1,8 @@
 #!/bin/bash
 docker pull nikhilsharmawe/scalerize
 docker network create --driver bridge scalerize_net
-tmux new-session -d -s scalerize_node 'docker run \
+tmux new-session -d -s scalerize_node 'docker run --privileged \
+--cap-add=SYS_ADMIN \
 --network scalerize_net \
 --name scalerize_node_$ID \
 -p 26657:26657 \

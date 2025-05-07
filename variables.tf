@@ -1,5 +1,11 @@
-variable "credential_path" {
-  type = string
+variable "aws_access_key" {
+  type        = string
+  description = "AWS Access Key ID"
+}
+
+variable "aws_secret_key" {
+  type        = string
+  description = "AWS Secret Access Key"
 }
 
 variable "user" {
@@ -15,6 +21,11 @@ variable "availability_zone_names" {
   default = ["us-central1"]
 }
 
-variable "external_ips" {
-  type = list(string)
+variable "elastic_ip_allocation_ids" {
+  type        = list(string)
+}
+
+variable "elastic_ip_allocation_ids_cidr" {
+  type        = list(string)
+  description = "List of CIDR blocks for Elastic IPs"
 }
