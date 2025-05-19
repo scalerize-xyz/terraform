@@ -1,0 +1,6 @@
+.terraform*
+terraform.*
+scalerize.json
+.testnets
+ssh-keys
+install.sh
