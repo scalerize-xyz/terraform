@@ -17,10 +17,21 @@ variable "availability_zone_names" {
   default = ["us-central1"]
 }
 
-variable "database_password" {
-  type = string
+variable "rpc_url" {
+  type        = string
+  description = "RPC URL for the Ethereum node"
+  default     = "http://localhost:8545"
 }
 
-variable "ethereum_rpc_url" {
-  type = string
+variable "private_key" {
+  type        = string
+  description = "Private key for the faucet"
+  sensitive   = true
+  default     = "b4f6c92d12dcaa5dde866306ba3bf13ee6a2f93579b9b5659df84e55043473cc"
+}
+
+variable "faucet_amount" {
+  type        = number
+  description = "Amount to send from the faucet"
+  default     = 0.1
 }
