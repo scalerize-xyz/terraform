@@ -38,6 +38,14 @@ resource "aws_security_group" "blockscout_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -122,6 +130,9 @@ cd ~/blockscout-backend && mix local.hex --force && mix local.rebar --force && m
 export SECRET_KEY_BASE=$(mix phx.gen.secret)
 export DATABASE_URL="postgresql://${var.user}:${var.database_password}@localhost:5432/blockscout"
 export ETHEREUM_JSONRPC_HTTP_URL="${var.ethereum_rpc_url}"
+export COIN=SCL
+export COIN_NAME=SCL
+export DISABLE_MARKET=true
 
 # Optionally append to .bashrc for future sessions
 echo "export SECRET_KEY_BASE=$SECRET_KEY_BASE" >> ~/.bashrc
@@ -154,6 +165,7 @@ NEXT_PUBLIC_APP_PORT=3000
 NEXT_PUBLIC_APP_INSTANCE=localhost
 NEXT_PUBLIC_APP_ENV=development
 NEXT_PUBLIC_API_WEBSOCKET_PROTOCOL=ws
+NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL=SCL
 NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=1234
 EOF
 yarn install
