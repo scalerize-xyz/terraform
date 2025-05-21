@@ -1,0 +1,9 @@
+docker pull nikhilsharmawe/faucet
+tmux new-session -d -s faucet 'docker run --privileged \
+--cap-add=SYS_ADMIN \
+-p 3000:3000 \
+-e RPC_URL=$RPC_URL \
+-e PRIVATE_KEY=$PRIVATE_KEY \
+-e FAUCET_AMOUNT=$FAUCET_AMOUNT \
+nikhilsharmawe/faucet /bin/bash -c "pnpm start"  \
+| tee -a /tmp/faucet_logs.log'
